@@ -18,12 +18,22 @@ class App extends Component {
     },()=>{console.log(this.state)}))
   }
 
+  onSearchDChange = (e)=>{
+    const searchField = e.target.value.toLowerCase()          
+    this.setState(()=>{
+      return {searchField}
+    })
+  }
+
 
 
   render(){
 
-    const filterMonsters = this.state.monsters.filter((monster)=>{
-      return monster.name.toLowerCase().includes(this.state.searchField)
+    const {monsters, searchField} = this.state
+    const {onSearchDChange} = this
+
+    const filterMonsters = monsters.filter((monster)=>{
+      return monster.name.toLowerCase().includes(searchField)
     })
 
 
@@ -31,12 +41,7 @@ class App extends Component {
     return (
       <div className="App">
 
-        <input className="search-box" type="search" placeholder="Search Monsters" onChange={(e)=>{
-          const searchField = e.target.value.toLowerCase()          
-          this.setState(()=>{
-            return {searchField}
-          })
-        }}/>
+        <input className="search-box" type="search" placeholder="Search Monsters" onChange={onSearchDChange}/>
 
         {
           //this.setState is use to rerender the changes and call back to update the state async
