@@ -6,7 +6,8 @@ class App extends Component {
   constructor(){
     super();
     this.state ={
-      monsters:[]
+      monsters:[],
+      searchField:''
     }
   }
 
@@ -20,23 +21,26 @@ class App extends Component {
 
 
   render(){
+
+    const filterMonsters = this.state.monsters.filter((monster)=>{
+      return monster.name.toLowerCase().includes(this.state.searchField)
+    })
+
+
+
     return (
       <div className="App">
 
         <input className="search-box" type="search" placeholder="Search Monsters" onChange={(e)=>{
-          console.log(e)
-          const searchString = e.target.value.toLowerCase()
-          const filterMonsters = this.state.monsters.filter((monster)=>{
-            return monster.name.toLowerCase().includes(searchString)
-          })
+          const searchField = e.target.value.toLowerCase()          
           this.setState(()=>{
-            return {monsters: filterMonsters}
+            return {searchField}
           })
         }}/>
 
         {
           //this.setState is use to rerender the changes and call back to update the state async
-          this.state.monsters.map((monster)=>{
+          filterMonsters.map((monster)=>{
             return <div key={monster.id}><h1>{monster.name}</h1></div>
           })
         }
